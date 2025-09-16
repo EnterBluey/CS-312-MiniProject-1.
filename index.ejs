@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title> Blogsite 101 </title>
+</head>
+<body>
+
+    <%- include ('header') %>
+
+    <!-- allows for user to add post -->
+    <form action="/add-post" method="POST" class= "add-post-form">
+        <!-- asks for the users name -->
+        <input type="text" name= "author" placeholder= "Your name" required>
+        <!-- ask for the caption of the post -->
+        <input type="text" name= "title" placeholder= "Caption" required>
+        <!-- allows for user to write the post -->
+        <textarea name="content" placeholder= "What do you want to share? " required></textarea>
+
+        <!-- Bonus part to be able to select categories. -->
+        <select name="category" required>
+            <!-- drop down to select the category the post falls into -->
+            <option value=""> Type of Post </option>
+            <!-- if the post is about tech then you select tech -->
+            <option value="Tech"> Tech </option>
+            <!-- if the post is about Lifestyle then you select lifestyle -->
+            <option value="Lifestyle"> Lifestyle </option>
+            <!-- if the post is about education then you select education -->
+            <option value="Education"> Education </option>
+        </select>
+
+        <!-- type of submission button which allows for the post to be made -->
+        <button type="submit"> Post </button>
+    </form>
+
+    <!-- List of Posts -->
+    <div class="posts-container">
+        <% if (posts.length === 0) { %>
+        <p style="text-align:center"> No Posts Yet! </p>
+        <% } 
+    
+        else { %>
+        <% posts.forEach(post => { %>
+            <div class="post">
+                <div class="post-header">
+                <!-- For the post author, what time it was created at, and then what the post related to -->
+                <strong> <%= post.author %> </strong>  
+                <small> <%= post.createdAt %> </small>  
+                <em> <%= post.category %> </em>
+            </div>
+
+            <h2> <%= post.title %> </h2>
+            <p> <%= post.content %> </p>
+
+            <!-- for the editing portion of things, it deals with the edit button -->
+            <div class="actions">
+            <a href="/edit/<%= post.id %>"> Edi </a>
+
+                <!-- deals with the delete button -->
+                <form action="/delete/<%= post.id %>" method="POST" style="display:inline;">
+                    <button type="submit"> Delete </button>
+                </form>
+            </div>
+
+    </div>
+            <% }) %>
+        <% } %>
+</div>
+
+    <!-- includes the footer which is another file -->
+<%- include ('footer') %>
+</body>
+</html>
